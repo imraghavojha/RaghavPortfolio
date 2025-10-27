@@ -306,9 +306,10 @@ body.dark-mode .blue-dot {
     justify-content: center;
 }
 
-.skill-icon svg {
+.skill-icon img {
     width: 100%;
     height: 100%;
+    object-fit: contain;
 }
 
 .skill-name {

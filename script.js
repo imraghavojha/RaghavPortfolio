@@ -111,6 +111,9 @@ async function loadGitHubHeatmap() {
 
         console.log(`loaded ${last365.length} days of contribution data`);
 
+        // scroll to rightmost (most recent commits)
+        scrollHeatmapToRight();
+
     } catch (error) {
         console.error('error loading github contributions:', error);
         console.log('trying alternative method...');
@@ -145,6 +148,9 @@ async function loadFromAlternativeAPI(username, container) {
             });
 
             console.log(`loaded ${last365.length} days from alternative api`);
+
+            // scroll to rightmost (most recent commits)
+            scrollHeatmapToRight();
         } else {
             throw new Error('no contribution data in response');
         }
@@ -194,6 +200,20 @@ function loadFallbackHeatmap(container) {
         dayDiv.className = `heatmap-day day-level-${level}`;
         dayDiv.title = `${date.toISOString().split('T')[0]}: ${count} contributions`;
         container.appendChild(dayDiv);
+    }
+
+    // scroll to rightmost (most recent commits)
+    scrollHeatmapToRight();
+}
+
+// scroll heatmap container to show most recent commits (rightmost)
+function scrollHeatmapToRight() {
+    const heatmapContainer = document.querySelector('.heatmap-container');
+    if (heatmapContainer) {
+        // use setTimeout to ensure DOM has updated
+        setTimeout(() => {
+            heatmapContainer.scrollLeft = heatmapContainer.scrollWidth;
+        }, 100);
     }
 }
 
