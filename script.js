@@ -6,6 +6,9 @@ function initMap() {
     // austin coordinates
     const austin = [30.2672, -97.7431];
 
+    // blue dot position - slightly below austin to not cover city name
+    const blueDotPosition = [30.264, -97.7431];
+
     // create map
     const map = L.map('map', {
         center: austin,
@@ -21,6 +24,28 @@ function initMap() {
         attribution: '',
         subdomains: 'abcd',
         maxZoom: 19
+    }).addTo(map);
+
+    // add blue dot as a circle marker at fixed coordinates
+    const blueDot = L.circleMarker(blueDotPosition, {
+        radius: 6,
+        fillColor: '#3b82f6',
+        color: '#ffffff',
+        weight: 2,
+        fillOpacity: 1,
+        opacity: 1,
+        className: 'blue-location-dot'
+    }).addTo(map);
+
+    // add glow effect by adding a larger transparent circle behind
+    L.circleMarker(blueDotPosition, {
+        radius: 14,
+        fillColor: '#3b82f6',
+        color: 'transparent',
+        weight: 0,
+        fillOpacity: 0.4,
+        opacity: 0,
+        className: 'blue-location-glow'
     }).addTo(map);
 }
 
@@ -73,6 +98,132 @@ if (themeToggle) {
         }
     });
 }
+
+// ==========================================
+// PARTICLE SYSTEM
+// ==========================================
+
+class ParticleSystem {
+    constructor(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.particles = [];
+        this.mouse = { x: 0, y: 0 };
+        this.particleCount = 20;
+
+        this.resize();
+        this.init();
+        this.animate();
+
+        window.addEventListener('resize', () => this.resize());
+        document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+    }
+
+    resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = document.documentElement.scrollHeight;
+
+        // ensure proper pixel ratio for crisp circles
+        const dpr = window.devicePixelRatio || 1;
+        this.canvas.width = window.innerWidth * dpr;
+        this.canvas.height = document.documentElement.scrollHeight * dpr;
+        this.canvas.style.width = window.innerWidth + 'px';
+        this.canvas.style.height = document.documentElement.scrollHeight + 'px';
+        this.ctx.scale(dpr, dpr);
+    }
+
+    init() {
+        this.particles = [];
+        for (let i = 0; i < this.particleCount; i++) {
+            this.particles.push(this.createParticle());
+        }
+    }
+
+    createParticle() {
+        return {
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * document.documentElement.scrollHeight,
+            size: Math.random() * 2 + 2.5, // 2.5-4.5px for perfect circles
+            baseX: Math.random() * window.innerWidth,
+            baseY: Math.random() * document.documentElement.scrollHeight,
+            vx: (Math.random() - 0.5) * 0.8, // slow continuous drift
+            vy: (Math.random() - 0.5) * 0.8
+        };
+    }
+
+    handleMouseMove(e) {
+        this.mouse.x = e.clientX;
+        this.mouse.y = e.clientY + window.scrollY;
+    }
+
+    animate() {
+        this.ctx.clearRect(0, 0, window.innerWidth, document.documentElement.scrollHeight);
+
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        const particleColor = isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.15)';
+
+        this.particles.forEach(particle => {
+            // calculate distance from mouse
+            const dx = this.mouse.x - particle.x;
+            const dy = this.mouse.y - particle.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const maxDistance = 150;
+
+            // move away from mouse
+            if (distance < maxDistance) {
+                const force = (maxDistance - distance) / maxDistance;
+                const angle = Math.atan2(dy, dx);
+                particle.x -= Math.cos(angle) * force * 5;
+                particle.y -= Math.sin(angle) * force * 5;
+            }
+
+            // continuous slow floating movement
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+
+            // very gentle pull back toward base to prevent drifting too far
+            particle.x += (particle.baseX - particle.x) * 0.005;
+            particle.y += (particle.baseY - particle.y) * 0.005;
+
+            // wrap around edges
+            if (particle.x < -10) {
+                particle.x = window.innerWidth + 10;
+                particle.baseX = window.innerWidth + 10;
+            }
+            if (particle.x > window.innerWidth + 10) {
+                particle.x = -10;
+                particle.baseX = -10;
+            }
+            if (particle.y < -10) {
+                particle.y = document.documentElement.scrollHeight + 10;
+                particle.baseY = document.documentElement.scrollHeight + 10;
+            }
+            if (particle.y > document.documentElement.scrollHeight + 10) {
+                particle.y = -10;
+                particle.baseY = -10;
+            }
+
+            // draw perfect circle
+            this.ctx.fillStyle = particleColor;
+            this.ctx.beginPath();
+            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            this.ctx.closePath();
+            this.ctx.fill();
+        });
+
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
+// initialize particle system
+const particlesCanvas = document.getElementById('particles-canvas');
+if (particlesCanvas) {
+    new ParticleSystem(particlesCanvas);
+}
+
+// ==========================================
+// GITHUB HEATMAP
+// ==========================================
 
 // github heatmap - fetch real data from github contributions api
 async function loadGitHubHeatmap() {
