@@ -37,13 +37,7 @@ update personal info in:
 - `projects.html` - project descriptions
 - `script.js` - github username for heatmap
 
-## tech stack
 
-- html5
-- css3 (custom properties, animations)
-- vanilla javascript
-- github api integration
-- openstreetmap embed
 
 ## notes
 
