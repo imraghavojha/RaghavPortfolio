@@ -47,4 +47,4 @@ update personal info in:
 - map shows austin, tx area
 - all animations pure css
 
-built with attention to detail and performance
+
