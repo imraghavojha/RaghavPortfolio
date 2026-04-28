@@ -398,57 +398,78 @@ if (lastUpdatedElement) {
 // PHOTO STACK
 // ==========================================
 
-const stack = document.getElementById('stack');
-if (stack) {
-    const cards = [...stack.querySelectorAll('.card')];
-    const baseTransforms = [
-        'rotate(-1deg)',
-        'rotate(2.5deg) translate(10px, 9px)',
-        'rotate(-2.5deg) translate(20px, 18px)'
-    ];
-    let currentCard = 0;
-    let startX = null;
-    let isDragging = false;
+(function () {
+    const stack = document.getElementById('stack');
+    if (!stack) return;
 
-    function applyStack() {
+    const cards = [...stack.querySelectorAll('.card')];
+    const n = cards.length;
+
+    const rotations = [-1, 2.5, -2.5];
+    const offsets  = [[0,0], [10,9], [20,18]];
+
+    // set fixed styles on every card upfront so layout never breaks
+    cards.forEach(card => {
+        Object.assign(card.style, {
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            width: '150px',
+            height: '195px',
+            borderRadius: '14px',
+            overflow: 'hidden',
+            border: '1px solid rgba(128,128,128,0.2)',
+            transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1)',
+            willChange: 'transform',
+        });
+    });
+
+    let current = 0;
+
+    function applyStack(animated) {
         cards.forEach((card, i) => {
-            const idx = (i - currentCard + cards.length) % cards.length;
-            card.style.zIndex = cards.length - idx;
-            card.style.transform = baseTransforms[idx] || 'translate(30px, 30px)';
-            card.style.opacity = idx < 4 ? '1' : '0';
+            const idx = (i - current + n) % n;
+            const r = rotations[idx] ?? 0;
+            const [tx, ty] = offsets[idx] ?? [30, 30];
+            card.style.transition = animated
+                ? 'transform 0.35s cubic-bezier(0.22,1,0.36,1)'
+                : 'none';
+            card.style.transform = `rotate(${r}deg) translate(${tx}px,${ty}px)`;
+            card.style.zIndex = n - idx;
         });
     }
 
-    applyStack();
+    applyStack(false);
+
+    let startX = null;
+    let dragging = false;
 
     stack.addEventListener('pointerdown', e => {
         e.preventDefault();
         startX = e.clientX;
-        isDragging = true;
-        stack.setPointerCapture(e.pointerId);
+        dragging = true;
+        try { stack.setPointerCapture(e.pointerId); } catch (_) {}
     });
 
     stack.addEventListener('pointermove', e => {
-        if (!isDragging || startX === null) return;
+        if (!dragging || startX === null) return;
         const dx = e.clientX - startX;
-        if (Math.abs(dx) > 8) {
-            const top = cards[currentCard % cards.length];
-            top.style.transform = `rotate(${dx * 0.05}deg) translateX(${dx * 0.4}px)`;
+        if (Math.abs(dx) > 6) {
+            const top = cards[current];
             top.style.transition = 'none';
+            top.style.transform = `rotate(${dx * 0.04}deg) translateX(${dx * 0.35}px)`;
         }
     });
 
-    stack.addEventListener('pointerup', e => {
-        if (!isDragging) return;
-        isDragging = false;
+    function end(e) {
+        if (!dragging) return;
+        dragging = false;
         const dx = e.clientX - startX;
-        if (Math.abs(dx) > 50) {
-            currentCard = (currentCard + 1) % cards.length;
-        }
-        cards.forEach(c => {
-            c.style.transition = 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s';
-        });
-        applyStack();
+        if (Math.abs(dx) > 45) current = (current + 1) % n;
+        applyStack(true);
         startX = null;
-    });
-}
+    }
+
+    stack.addEventListener('pointerup', end);
+    stack.addEventListener('pointercancel', end);
+})();
