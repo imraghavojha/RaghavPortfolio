@@ -93,9 +93,10 @@ const themeToggle = document.getElementById('theme-toggle');
 if (themeToggle) {
     const body = document.body;
 
-    // check saved theme
+    // check saved theme, fall back to system preference
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
         body.classList.add('dark-mode');
         themeToggle.textContent = '🌙';
     }
@@ -408,13 +409,16 @@ if (lastUpdatedElement) {
     const offsets   = [[0, 0], [10, 9], [20, 18]];
 
     function init() {
-        // compute card size from actual container width so mobile works too
+        // card must fit inside container minus the max translate offsets (20px right, 18px down)
+        const maxTx = 22, maxTy = 20;
         const cw = stack.offsetWidth;
-        const cardW = cw - 22; // leave room for the max horizontal translate
+        const cardW = cw - maxTx;
         const cardH = Math.round(cardW * 1.3);
 
-        // size the container to exactly hold all cards including their offsets
-        stack.style.height = (cardH + 20) + 'px';
+        // size container to exactly hold cards + their offsets, then clip
+        stack.style.width  = cw + 'px';
+        stack.style.height = (cardH + maxTy) + 'px';
+        stack.style.overflow = 'hidden';
 
         cards.forEach(card => {
             Object.assign(card.style, {
