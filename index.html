@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raghav Ojha - Portfolio</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Particle canvas background -->
+    <canvas id="particles-canvas"></canvas>
+
+    <header class="navbar">
+        <div class="nav-logo">RAGHAV OJHA</div>
+        <nav class="nav-links">
+            <a href="projects.html">projects</a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode">
+                ☀️
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="map-container">
+            <div id="map" class="interactive-map"></div>
+            <div class="blue-dot"></div>
+            <div class="map-fade-overlay"></div>
+            
+            <div id="clock" class="clock">
+                05:17 PM CDT
+            </div>
+
+            <div class="plane">✈️</div>
+        </section>
+
+        <div class="intro-layout">
+            <div class="intro-left">
+                <h1 class="greeting">hi, I'm Raghav 👋</h1>
+                <p class="tagline">CS student · Texas State University</p>
+                <div class="profile-status">
+                    <span class="status-dot"></span>
+                    Available for work
+                </div>
+                <p class="intro-text">Backend by trade, systems thinker by nature. I build robust CI/CD pipelines, distributed systems, and backend services that hold up under load.</p>
+                <div class="action-row">
+                    <a href="/mnt/project/raghav_resume.pdf" class="social-button resume-button" download>
+                        Resume
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                    </a>
+                    <a href="https://github.com/imraghavojha" class="social-button icon-button" aria-label="GitHub" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.13-1.25-.5-2.5-1-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C4 2 3 2 3 2c-.5 1-1.13 2.25-1 3.5A5.403 5.403 0 0 0 1 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                    </a>
+                    <a href="mailto:jeh267@txstate.edu" class="social-button icon-button" aria-label="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="photo-stack" id="stack">
+                <div class="card"><img src="images/img1.jpg" alt="" draggable="false"></div>
+                <div class="card"><img src="images/img2.jpg" alt="" draggable="false"></div>
+                <div class="card"><img src="images/img3.jpg" alt="" draggable="false"></div>
+            </div>
+        </div>
+        
+        <div class="section-container">
+        <h2 class="section-title">Stack</h2>
+        <ul class="skills-grid">
+            <li class="skill-card">
+                <div class="skill-icon">
+                    <img src="https://skillicons.dev/icons?i=java" alt="Java">
+                </div>
+                <span class="skill-name">Java</span>
+            </li>
+            <li class="skill-card">
+                <div class="skill-icon">
+                    <img src="https://skillicons.dev/icons?i=spring" alt="Spring">
+                </div>
+                <span class="skill-name">Spring Boot</span>
+            </li>
+            <li class="skill-card">
+                <div class="skill-icon">
+                    <img src="https://skillicons.dev/icons?i=kafka" alt="Kafka">
+                </div>
+                <span class="skill-name">Kafka</span>
+            </li>
+            <li class="skill-card">
+                <div class="skill-icon">
+                    <img src="https://skillicons.dev/icons?i=python" alt="Python">
+                </div>
+                <span class="skill-name">Python</span>
+            </li>
+            <li class="skill-card">
+                <div class="skill-icon">
+                    <img src="https://skillicons.dev/icons?i=docker" alt="Docker">
+                </div>
+                <span class="skill-name">Docker</span>
+            </li>
+            <li class="skill-card">
+                <div class="skill-icon">
+                    <img src="https://skillicons.dev/icons?i=kubernetes" alt="Kubernetes">
+                </div>
+                <span class="skill-name">Kubernetes</span>
+            </li>
+            <li class="skill-card">
+                <div class="skill-icon">
+                    <img src="https://skillicons.dev/icons?i=postgres" alt="PostgreSQL">
+                </div>
+                <span class="skill-name">PostgreSQL</span>
+            </li>
+            <li class="skill-card">
+                <div class="skill-icon">
+                    <img src="https://skillicons.dev/icons?i=vim" alt="Vim">
+                </div>
+                <span class="skill-name">Vim</span>
+            </li>
+        </ul>
+        </div>
+
+        <section class="section-container">
+            <h2 class="section-title">GitHub Contributions</h2>
+            <div class="heatmap-container">
+                <div id="github-heatmap" class="heatmap-grid">
+                    <!-- dynamically loaded -->
+                </div>
+            </div>
+        </section>
+
+        <section class="section-container">
+            <h2 class="section-title">Recent projects</h2>
+            <div class="projects-grid">
+                <a href="https://github.com/imraghavojha/streamci" class="project-card" target="_blank">
+                    <img src="images/streamci.jpg" alt="StreamCI" class="project-image">
+                    <div class="project-details">
+                        <h3>StreamCI</h3>
+                        <p>Real-time CI/CD pipeline analytics platform with webhooks and monitoring</p>
+                    </div>
+                </a>
+                <a href="https://github.com/imraghavojha/lit" class="project-card" target="_blank">
+                    <img src="images/lit.jpg" alt="Lit" class="project-image">
+                    <div class="project-details">
+                        <h3>Lit - Git Clone</h3>
+                        <p>A local Git implementation in Java with SHA-1 hashing and object serialization</p>
+                    </div>
+                </a>
+            </div>
+            <a href="projects.html" class="more-link">More projects →</a>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://github.com/imraghavojha" class="footer-icon-link" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.13-1.25-.5-2.5-1-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C4 2 3 2 3 2c-.5 1-1.13 2.25-1 3.5A5.403 5.403 0 0 0 1 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                GitHub
+            </a>
+            <a href="mailto:jeh267@txstate.edu" class="footer-icon-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                Contact
+            </a>
+        </div>
+        <div class="footer-update">
+            Last updated: <span id="last-updated">October 26, 2025</span>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
