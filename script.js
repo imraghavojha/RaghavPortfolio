@@ -404,25 +404,34 @@ if (lastUpdatedElement) {
 
     const cards = [...stack.querySelectorAll('.card')];
     const n = cards.length;
-
     const rotations = [-1, 2.5, -2.5];
-    const offsets  = [[0,0], [10,9], [20,18]];
+    const offsets   = [[0, 0], [10, 9], [20, 18]];
 
-    // set fixed styles on every card upfront so layout never breaks
-    cards.forEach(card => {
-        Object.assign(card.style, {
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            width: '150px',
-            height: '195px',
-            borderRadius: '14px',
-            overflow: 'hidden',
-            border: '1px solid rgba(128,128,128,0.2)',
-            transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1)',
-            willChange: 'transform',
+    function init() {
+        // compute card size from actual container width so mobile works too
+        const cw = stack.offsetWidth;
+        const cardW = cw - 22; // leave room for the max horizontal translate
+        const cardH = Math.round(cardW * 1.3);
+
+        // size the container to exactly hold all cards including their offsets
+        stack.style.height = (cardH + 20) + 'px';
+
+        cards.forEach(card => {
+            Object.assign(card.style, {
+                position: 'absolute',
+                top: '0',
+                left: '0',
+                width: cardW + 'px',
+                height: cardH + 'px',
+                borderRadius: '14px',
+                overflow: 'hidden',
+                border: '1px solid rgba(128,128,128,0.2)',
+                willChange: 'transform',
+            });
         });
-    });
+
+        applyStack(false);
+    }
 
     let current = 0;
 
@@ -430,7 +439,7 @@ if (lastUpdatedElement) {
         cards.forEach((card, i) => {
             const idx = (i - current + n) % n;
             const r = rotations[idx] ?? 0;
-            const [tx, ty] = offsets[idx] ?? [30, 30];
+            const [tx, ty] = offsets[idx] ?? [0, 0];
             card.style.transition = animated
                 ? 'transform 0.35s cubic-bezier(0.22,1,0.36,1)'
                 : 'none';
@@ -439,7 +448,8 @@ if (lastUpdatedElement) {
         });
     }
 
-    applyStack(false);
+    init();
+    window.addEventListener('resize', init);
 
     let startX = null;
     let dragging = false;
