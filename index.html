@@ -66,7 +66,33 @@
           </p>
           <div class="action-row">
             <a
+              href="https://www.linkedin.com/in/imraghavojha/"
+              id="btn-linkedin"
+              class="social-button resume-button"
+              target="_blank"
+            >
+              LinkedIn
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                />
+                <rect width="4" height="12" x="2" y="9" />
+                <circle cx="4" cy="4" r="2" />
+              </svg>
+            </a>
+            <a
               href="Raghav_Resume.pdf"
+              id="btn-resume"
               class="social-button resume-button"
               download
             >
@@ -89,14 +115,15 @@
             </a>
             <a
               href="https://github.com/imraghavojha"
-              class="social-button icon-button"
-              aria-label="GitHub"
+              id="btn-github"
+              class="social-button resume-button"
               target="_blank"
             >
+              GitHub
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -318,6 +345,16 @@
         Last updated: <span id="last-updated">October 26, 2025</span>
       </div>
     </footer>
+
+    <div id="preview-wrapper">
+      <img src="images/resume.jpg" id="preview-resume" alt="Resume Preview" />
+      <img
+        src="images/linkedin.jpg"
+        id="preview-linkedin"
+        alt="LinkedIn Preview"
+      />
+      <img src="images/github.jpg" id="preview-github" alt="GitHub Preview" />
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>

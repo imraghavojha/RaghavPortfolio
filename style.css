@@ -851,6 +851,39 @@ body.dark-mode .floating-icon {
     }
 }
 
+#preview-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    pointer-events: none;
+    overflow: hidden; 
+}
+
+#preview-wrapper img {
+    position: absolute;
+    top: 5vh;
+    right: 0;
+    width: max(120px, min(40vw, 480px, (100vw - 1024px) / 2 - 16px));
+    height: 50vh;
+    object-fit: cover;
+    object-position: top left;
+    border-radius: 12px 0 0 12px;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+    transform: translateX(101%);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.dark-mode #preview-wrapper img {
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+#preview-wrapper img.show-preview {
+    transform: translateX(0) !important;
+}
+
 @media (min-width: 768px) {
     body {
         padding: 2rem;

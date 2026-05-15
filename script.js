@@ -494,23 +494,55 @@ if (lastUpdatedElement) {
 // ==========================================
 // FLOATING ICONS INTERACTION
 // ==========================================
-document.querySelectorAll('.floating-icon').forEach(icon => {
-    icon.addEventListener('click', (e) => {
-        // Close others
-        document.querySelectorAll('.floating-icon').forEach(other => {
-            if (other !== icon) other.classList.remove('active');
-        });
-        // Toggle clicked icon
-        icon.classList.toggle('active');
-        e.stopPropagation(); // Prevent card drag from firing
-    });
-});
+function setupFloatingIcons() {
+    const icons = document.querySelectorAll('.floating-icon');
+    if (!icons.length) return;
 
-// Click outside to close names
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.floating-icon')) {
-        document.querySelectorAll('.floating-icon').forEach(icon => {
-            icon.classList.remove('active');
+    icons.forEach(icon => {
+        icon.addEventListener('pointerdown', e => e.stopPropagation());
+        icon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const wasActive = icon.classList.contains('active');
+            icons.forEach(other => other.classList.remove('active'));
+            if (!wasActive) icon.classList.add('active');
         });
-    }
-});
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.floating-icon')) {
+            icons.forEach(icon => icon.classList.remove('active'));
+        }
+    });
+}
+
+// ==========================================
+// RESUME / LINKEDIN HOVER PREVIEW
+// ==========================================
+function setupHoverPreviews() {
+    const pairs = [
+        ['btn-resume', 'preview-resume'],
+        ['btn-linkedin', 'preview-linkedin'],
+        ['btn-github', 'preview-github'],
+    ];
+    pairs.forEach(([btnId, previewId]) => {
+        const btn = document.getElementById(btnId);
+        const preview = document.getElementById(previewId);
+        if (!btn || !preview) return;
+        const show = () => preview.classList.add('show-preview');
+        const hide = () => preview.classList.remove('show-preview');
+        btn.addEventListener('mouseenter', show);
+        btn.addEventListener('mouseleave', hide);
+        btn.addEventListener('focus', show);
+        btn.addEventListener('blur', hide);
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        setupFloatingIcons();
+        setupHoverPreviews();
+    });
+} else {
+    setupFloatingIcons();
+    setupHoverPreviews();
+}
