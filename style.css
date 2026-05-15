@@ -803,10 +803,12 @@ body.dark-mode .floating-icon {
         align-items: center;
         gap: 2rem;
         margin-top: 2rem;
+        padding: 0 0.75rem;
     }
 
     .photo-stack-container {
         margin-right: 0;
+        margin-top: 2.5rem; /* keep top floating icons off the map above */
         margin-bottom: 3.5rem; /* Increased to ensure icons clear the text below it */
     }
 
