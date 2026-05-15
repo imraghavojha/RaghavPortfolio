@@ -342,70 +342,73 @@ body.dark-mode .blue-location-dot {
 /* Floating Tech Icons */
 .floating-icon {
     position: absolute;
-    background: var(--card-bg);
-    border-radius: 20%;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    background: #1a1a1a; /* Dark background from reference */
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 15px var(--glow-color);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 12px;
     z-index: 3;
-    border: 1px solid var(--border-color);
-    transition: transform 0.2s ease;
-    pointer-events: none; /* lets you drag the stack right through the icons */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* Using variables ensures hover scales smoothly without breaking rotation */
+    transform: translate(var(--tx, 0), var(--ty, 0)) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    cursor: pointer;
+    pointer-events: auto !important; /* Allows hover/click */
 }
 
 body.dark-mode .floating-icon {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    background: #111;
+    border-color: rgba(255, 255, 255, 0.15);
 }
-
-/* Removed .floating-icon:hover to allow pointer-events: none to work */
 
 .floating-icon img {
-    width: 100%;
-    height: 100%;
+    width: 50px; /* Slightly smaller logos */
+    height: 50px;
     object-fit: contain;
+    transition: transform 0.3s ease;
 }
 
-.icon-python {
-    top: -20px;
-    left: -30px;
-    width: 70px;
-    height: 70px;
-    transform: rotate(-15deg);
+.floating-icon .tool-name {
+    font-size: 0;
+    opacity: 0;
+    color: #fff;
+    font-weight: 600;
+    margin-top: 0;
+    transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
-.icon-claude {
-    bottom: 50px;
-    left: -40px;
-    width: 65px;
-    height: 65px;
-    transform: rotate(10deg);
+/* Hover and Active (Click) States */
+.floating-icon:hover {
+    --scale: 1.08;
+    z-index: 10;
 }
 
-.icon-docker {
-    top: 20px;
-    right: -40px;
-    width: 80px;
-    height: 80px;
-    transform: rotate(15deg);
+.floating-icon.active {
+    --scale: 1.15;
+    z-index: 15;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 25px var(--glow-color);
 }
 
-.icon-go {
-    bottom: -10px;
-    right: 10px;
-    width: 60px;
-    height: 60px;
-    transform: rotate(-10deg);
+.floating-icon.active .tool-name {
+    font-size: 0.75rem;
+    opacity: 1;
+    margin-top: 8px;
 }
 
-.icon-postgres {
-    top: 50%;
-    right: -50px;
-    width: 65px;
-    height: 65px;
-    transform: translateY(-50%) rotate(-5deg);
-}
+/* Base Icon Positions */
+.icon-python { top: -10px; left: -30px; --rot: -15deg; }
+.icon-copilot { top: -25px; right: 25px; --rot: 8deg; }
+.icon-docker { top: 45px; right: -40px; --rot: 15deg; }
+.icon-postgres { top: 50%; right: -50px; --ty: -50%; --rot: -5deg; }
+.icon-go { bottom: 10px; right: -10px; --rot: -10deg; }
+.icon-claude { bottom: 50px; left: -40px; --rot: 10deg; }
+.icon-codex { bottom: -15px; left: 20px; --rot: -8deg; }
+.icon-java { top: -35px; left: 40px; --rot: 6deg; }
 
 /* action row */
 .action-row {
@@ -826,40 +829,14 @@ body.dark-mode .floating-icon {
         max-width: 100%;
     }
 
-    .icon-python {
-        top: -10px;
-        left: -20px;
-        width: 50px;
-        height: 50px;
-    }
-
-    .icon-claude {
-        bottom: 30px;
-        left: -25px;
-        width: 45px;
-        height: 45px;
-    }
-
-    .icon-docker {
-        top: 10px;
-        right: -25px;
-        width: 55px;
-        height: 55px;
-    }
-
-    .icon-go {
-        bottom: -5px;
-        right: 0px;
-        width: 45px;
-        height: 45px;
-    }
-
-    .icon-postgres {
-        top: 50%;
-        right: -30px;
-        width: 45px;
-        height: 45px;
-    }
+    .icon-python { top: -5px; left: -15px; }
+    .icon-copilot { top: -15px; right: 15px; }
+    .icon-docker { top: 35px; right: -20px; }
+    .icon-postgres { top: 50%; right: -25px; }
+    .icon-go { bottom: 5px; right: 0px; }
+    .icon-claude { bottom: 40px; left: -20px; }
+    .icon-codex { bottom: -5px; left: 15px; }
+    .icon-java { top: -20px; left: 40px; }
 }
 
 @media (min-width: 640px) {

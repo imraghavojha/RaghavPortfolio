@@ -491,3 +491,26 @@ if (lastUpdatedElement) {
     stack.addEventListener('pointerup', end);
     stack.addEventListener('pointercancel', end);
 })();
+// ==========================================
+// FLOATING ICONS INTERACTION
+// ==========================================
+document.querySelectorAll('.floating-icon').forEach(icon => {
+    icon.addEventListener('click', (e) => {
+        // Close others
+        document.querySelectorAll('.floating-icon').forEach(other => {
+            if (other !== icon) other.classList.remove('active');
+        });
+        // Toggle clicked icon
+        icon.classList.toggle('active');
+        e.stopPropagation(); // Prevent card drag from firing
+    });
+});
+
+// Click outside to close names
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.floating-icon')) {
+        document.querySelectorAll('.floating-icon').forEach(icon => {
+            icon.classList.remove('active');
+        });
+    }
+});
