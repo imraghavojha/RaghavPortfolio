@@ -42,7 +42,7 @@ body {
     margin: 0;
     padding: 1.5rem;
     transition: background-color 0.3s, color 0.3s;
-    max-width: 768px;
+    max-width: 1024px;
     margin: 0 auto;
     position: relative;
     overflow-x: hidden;
@@ -224,10 +224,10 @@ body.dark-mode .blue-location-dot {
 /* intro layout */
 .intro-layout {
     display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-    margin-top: 1.5rem;
-    margin-bottom: 2.5rem;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 3.5rem;
+    margin-bottom: 4rem;
 }
 
 .intro-left {
@@ -236,7 +236,7 @@ body.dark-mode .blue-location-dot {
 }
 
 .greeting {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 800;
     margin: 0 0 0.35rem;
     letter-spacing: -0.025em;
@@ -245,7 +245,7 @@ body.dark-mode .blue-location-dot {
 }
 
 .tagline {
-    font-size: 0.875rem;
+    font-size: 1.1rem;
     color: var(--subtle-text);
     margin: 0 0 0.85rem;
     letter-spacing: 0.01em;
@@ -255,7 +255,7 @@ body.dark-mode .blue-location-dot {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.85rem;
+    font-size: 1.05rem;
     color: #10b981;
     margin-bottom: 1rem;
 }
@@ -275,7 +275,7 @@ body.dark-mode .blue-location-dot {
 }
 
 .intro-text {
-    font-size: 0.925rem;
+    font-size: 1.15rem;
     line-height: 1.7;
     color: var(--subtle-text);
     max-width: 44ch;
@@ -283,13 +283,20 @@ body.dark-mode .blue-location-dot {
 }
 
 /* photo stack */
+.photo-stack-container {
+    position: relative;
+    flex-shrink: 0;
+    margin-right: 2rem; 
+}
+
 .photo-stack {
     flex-shrink: 0;
-    width: 170px;
-    height: 220px;
+    width: 320px;
+    height: 420px;
     position: relative;
     cursor: grab;
     user-select: none;
+    z-index: 2;
 }
 
 .photo-stack:active {
@@ -300,8 +307,8 @@ body.dark-mode .blue-location-dot {
     position: absolute;
     top: 0;
     left: 0;
-    width: 150px;
-    height: 195px;
+    width: 300px;
+    height: 390px;
     border-radius: 14px;
     overflow: hidden;
     border: 1px solid var(--border-color);
@@ -331,6 +338,75 @@ body.dark-mode .blue-location-dot {
 .card:nth-child(1) { z-index: 3; transform: rotate(-1deg); }
 .card:nth-child(2) { z-index: 2; transform: rotate(2.5deg) translate(10px, 9px); }
 .card:nth-child(3) { z-index: 1; transform: rotate(-2.5deg) translate(20px, 18px); }
+
+/* Floating Tech Icons */
+.floating-icon {
+    position: absolute;
+    background: var(--card-bg);
+    border-radius: 20%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    z-index: 3;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease;
+}
+
+body.dark-mode .floating-icon {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.floating-icon:hover {
+    transform: scale(1.1) !important;
+}
+
+.floating-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.icon-python {
+    top: -20px;
+    left: -30px;
+    width: 70px;
+    height: 70px;
+    transform: rotate(-15deg);
+}
+
+.icon-claude {
+    bottom: 50px;
+    left: -40px;
+    width: 65px;
+    height: 65px;
+    transform: rotate(10deg);
+}
+
+.icon-docker {
+    top: 20px;
+    right: -40px;
+    width: 80px;
+    height: 80px;
+    transform: rotate(15deg);
+}
+
+.icon-go {
+    bottom: -10px;
+    right: 10px;
+    width: 60px;
+    height: 60px;
+    transform: rotate(-10deg);
+}
+
+.icon-postgres {
+    top: 50%;
+    right: -50px;
+    width: 65px;
+    height: 65px;
+    transform: translateY(-50%) rotate(-5deg);
+}
 
 /* action row */
 .action-row {
@@ -386,55 +462,6 @@ body.dark-mode .blue-location-dot {
 .icon-button svg {
     width: 20px;
     height: 20px;
-}
-
-/* skills grid */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 0.75rem;
-    list-style: none;
-    padding: 0;
-    margin-top: 0.5rem;
-}
-
-.skill-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1rem 0.75rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    transition: border-color 0.2s, background-color 0.2s;
-}
-
-.skill-card:hover {
-    border-color: var(--subtle-text);
-    background-color: var(--hover-bg);
-}
-
-.skill-icon {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.skill-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.skill-name {
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--subtle-text);
-    text-align: center;
 }
 
 /* sections */
@@ -771,26 +798,68 @@ body.dark-mode .blue-location-dot {
 @media (max-width: 520px) {
     .intro-layout {
         flex-direction: column-reverse;
-        align-items: flex-start;
-        gap: 1.5rem;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .photo-stack-container {
+        margin-right: 0;
+        margin-bottom: 1.5rem;
     }
 
     .photo-stack {
-        width: 140px;
-        height: 185px;
+        width: 220px;
+        height: 290px;
     }
 
     .card {
-        width: 125px;
-        height: 165px;
+        width: 200px;
+        height: 260px;
     }
 
     .greeting {
-        font-size: 1.7rem;
+        font-size: 2rem;
     }
 
     .intro-text {
+        font-size: 1.05rem;
         max-width: 100%;
+    }
+
+    .icon-python {
+        top: -10px;
+        left: -20px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .icon-claude {
+        bottom: 30px;
+        left: -25px;
+        width: 45px;
+        height: 45px;
+    }
+
+    .icon-docker {
+        top: 10px;
+        right: -25px;
+        width: 55px;
+        height: 55px;
+    }
+
+    .icon-go {
+        bottom: -5px;
+        right: 0px;
+        width: 45px;
+        height: 45px;
+    }
+
+    .icon-postgres {
+        top: 50%;
+        right: -30px;
+        width: 45px;
+        height: 45px;
     }
 }
 
