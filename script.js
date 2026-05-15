@@ -409,6 +409,10 @@ if (lastUpdatedElement) {
     const offsets   = [[0, 0], [10, 9], [20, 18]];
 
     function init() {
+        // Clear inline styles so offsetWidth reads the true CSS media query value
+        stack.style.width = '';
+        stack.style.height = '';
+
         // card must fit inside container minus the max translate offsets (20px right, 18px down)
         const maxTx = 22, maxTy = 20;
         const cw = stack.offsetWidth;

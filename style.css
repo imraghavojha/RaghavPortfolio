@@ -286,7 +286,7 @@ body.dark-mode .blue-location-dot {
 .photo-stack-container {
     position: relative;
     flex-shrink: 0;
-    margin-right: 2rem; 
+    margin-right: 3.5rem; /* Increased from 2rem to prevent horizontal scrolling */
 }
 
 .photo-stack {
@@ -352,15 +352,14 @@ body.dark-mode .blue-location-dot {
     z-index: 3;
     border: 1px solid var(--border-color);
     transition: transform 0.2s ease;
+    pointer-events: none; /* lets you drag the stack right through the icons */
 }
 
 body.dark-mode .floating-icon {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
-.floating-icon:hover {
-    transform: scale(1.1) !important;
-}
+/* Removed .floating-icon:hover to allow pointer-events: none to work */
 
 .floating-icon img {
     width: 100%;
@@ -805,7 +804,7 @@ body.dark-mode .floating-icon {
 
     .photo-stack-container {
         margin-right: 0;
-        margin-bottom: 1.5rem;
+        margin-bottom: 3.5rem; /* Increased to ensure icons clear the text below it */
     }
 
     .photo-stack {
