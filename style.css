@@ -829,14 +829,17 @@ body.dark-mode .floating-icon {
         max-width: 100%;
     }
 
-    .icon-python { top: -5px; left: -15px; }
-    .icon-copilot { top: -15px; right: 15px; }
-    .icon-docker { top: 35px; right: -20px; }
-    .icon-postgres { top: 50%; right: -25px; }
-    .icon-go { bottom: 5px; right: 0px; }
-    .icon-claude { bottom: 40px; left: -20px; }
-    .icon-codex { bottom: -5px; left: 15px; }
-    .icon-java { top: -20px; left: 40px; }
+    .floating-icon { padding: 8px; }
+    .floating-icon img { width: 36px; height: 36px; }
+
+    .icon-python { top: -10px; left: -35px; }
+    .icon-copilot { top: -25px; right: -10px; }
+    .icon-docker { top: 30px; right: -40px; }
+    .icon-postgres { top: 50%; right: -45px; }
+    .icon-go { bottom: 0; right: -35px; }
+    .icon-claude { bottom: 30px; left: -45px; }
+    .icon-codex { bottom: -15px; left: -10px; }
+    .icon-java { top: -30px; left: 30px; }
 }
 
 @media (min-width: 640px) {
