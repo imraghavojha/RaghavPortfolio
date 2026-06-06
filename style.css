@@ -490,6 +490,9 @@ body.dark-mode .floating-icon {
     background-color: var(--card-bg);
     box-shadow: var(--shadow-1);
     overflow-x: auto;
+    /* hug the grid (left-aligned under the title) instead of stranding it in a wide box */
+    width: fit-content;
+    max-width: 100%;
 }
 
 .heatmap-grid {
