@@ -421,7 +421,7 @@ if (lastUpdatedElement) {
         if (!dragging) return;
         dragging = false;
         const dx = e.clientX - startX;
-        if (Math.abs(dx) > 45) current = (current + 1) % n;
+        if (Math.abs(dx) > 25) current = (current + 1) % n;
         applyStack(true);
         startX = null;
     }
