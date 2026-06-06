@@ -157,8 +157,10 @@ const themeToggle = document.getElementById('theme-toggle');
 if (themeToggle) {
     const body = document.body;
 
-    // restore saved theme; light is the default
-    if (localStorage.getItem('theme') === 'dark') {
+    // restore saved theme; if none saved, follow the device's color-scheme setting
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
         body.classList.add('dark-mode');
         themeToggle.textContent = '🌙';
     }
