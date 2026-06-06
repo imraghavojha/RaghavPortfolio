@@ -44,19 +44,21 @@ body {
     overflow-x: hidden;
 }
 
-/* custom cursor — native cursor hidden, replaced by #custom-cursor div */
-* { cursor: none !important; }
+/* custom cursor — only on mouse/trackpad devices, never on touch */
+@media (pointer: fine) {
+    * { cursor: none !important; }
 
-#custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 999999;
-    background-repeat: no-repeat;
-    background-size: contain;
-    will-change: left, top;
-    transition: opacity 0.15s;
+    #custom-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 999999;
+        background-repeat: no-repeat;
+        background-size: contain;
+        will-change: left, top;
+        transition: opacity 0.15s;
+    }
 }
 
 /* navbar */

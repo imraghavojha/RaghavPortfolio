@@ -2,6 +2,8 @@
 // CUSTOM CURSOR
 // ==========================================
 (function () {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+
     const el = document.createElement('div');
     el.id = 'custom-cursor';
     document.body.appendChild(el);
