@@ -1,3 +1,61 @@
+// ==========================================
+// CUSTOM CURSOR
+// ==========================================
+(function () {
+    const el = document.createElement('div');
+    el.id = 'custom-cursor';
+    document.body.appendChild(el);
+
+    // display size and hotspot offset for each cursor type
+    // hotspot = the pixel on the image that maps to the actual pointer tip
+    const TYPES = {
+        default: { file: 'cursor.png',      w: 26, h: 36, ox: 3,  oy: 2  },
+        pointer: { file: 'pointer.png',      w: 40, h: 37, ox: 8,  oy: 4  },
+        text:    { file: 'text-select.png',  w: 20, h: 32, ox: 10, oy: 16 },
+        grab:    { file: 'grab.png',         w: 36, h: 36, ox: 11, oy: 5  },
+    };
+
+    const theme = () => document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    let currentType = 'default';
+
+    function apply(type) {
+        const c = TYPES[type];
+        el.style.width            = c.w + 'px';
+        el.style.height           = c.h + 'px';
+        el.style.backgroundImage  = `url('cursors/${theme()}/${c.file}')`;
+        el.style.marginLeft       = -c.ox + 'px';
+        el.style.marginTop        = -c.oy + 'px';
+        currentType = type;
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        el.style.left = e.clientX + 'px';
+        el.style.top  = e.clientY + 'px';
+
+        const t = e.target;
+        let type = 'default';
+        if (t.closest('input, textarea, [contenteditable]')) {
+            type = 'text';
+        } else if (t.closest('.photo-stack')) {
+            type = 'grab';
+        } else if (t.closest('a, button, [role="button"], .floating-icon, .social-button, .project-card, .more-link, .footer-icon-link, .btn-outline, .btn-filled')) {
+            type = 'pointer';
+        }
+        if (type !== currentType) apply(type);
+    });
+
+    document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { el.style.opacity = '1'; });
+
+    // re-apply when theme toggles so cursor matches
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => setTimeout(() => apply(currentType), 0));
+    }
+
+    apply('default');
+})();
+
 // initialize austin map with leaflet
 function initMap() {
     const mapElement = document.getElementById('map');
@@ -93,10 +151,8 @@ const themeToggle = document.getElementById('theme-toggle');
 if (themeToggle) {
     const body = document.body;
 
-    // check saved theme, fall back to system preference
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    // restore saved theme; light is the default
+    if (localStorage.getItem('theme') === 'dark') {
         body.classList.add('dark-mode');
         themeToggle.textContent = '🌙';
     }
@@ -112,128 +168,6 @@ if (themeToggle) {
             localStorage.setItem('theme', 'light');
         }
     });
-}
-
-// ==========================================
-// PARTICLE SYSTEM
-// ==========================================
-
-class ParticleSystem {
-    constructor(canvas) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
-        this.particles = [];
-        this.mouse = { x: 0, y: 0 };
-        this.particleCount = 20;
-
-        this.resize();
-        this.init();
-        this.animate();
-
-        window.addEventListener('resize', () => this.resize());
-        document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
-    }
-
-    resize() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = document.documentElement.scrollHeight;
-
-        // ensure proper pixel ratio for crisp circles
-        const dpr = window.devicePixelRatio || 1;
-        this.canvas.width = window.innerWidth * dpr;
-        this.canvas.height = document.documentElement.scrollHeight * dpr;
-        this.canvas.style.width = window.innerWidth + 'px';
-        this.canvas.style.height = document.documentElement.scrollHeight + 'px';
-        this.ctx.scale(dpr, dpr);
-    }
-
-    init() {
-        this.particles = [];
-        for (let i = 0; i < this.particleCount; i++) {
-            this.particles.push(this.createParticle());
-        }
-    }
-
-    createParticle() {
-        return {
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * document.documentElement.scrollHeight,
-            size: Math.random() * 2 + 2.5, // 2.5-4.5px for perfect circles
-            baseX: Math.random() * window.innerWidth,
-            baseY: Math.random() * document.documentElement.scrollHeight,
-            vx: (Math.random() - 0.5) * 0.8, // slow continuous drift
-            vy: (Math.random() - 0.5) * 0.8
-        };
-    }
-
-    handleMouseMove(e) {
-        this.mouse.x = e.clientX;
-        this.mouse.y = e.clientY + window.scrollY;
-    }
-
-    animate() {
-        this.ctx.clearRect(0, 0, window.innerWidth, document.documentElement.scrollHeight);
-
-        const isDarkMode = document.body.classList.contains('dark-mode');
-        const particleColor = isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.15)';
-
-        this.particles.forEach(particle => {
-            // calculate distance from mouse
-            const dx = this.mouse.x - particle.x;
-            const dy = this.mouse.y - particle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const maxDistance = 150;
-
-            // move away from mouse
-            if (distance < maxDistance) {
-                const force = (maxDistance - distance) / maxDistance;
-                const angle = Math.atan2(dy, dx);
-                particle.x -= Math.cos(angle) * force * 5;
-                particle.y -= Math.sin(angle) * force * 5;
-            }
-
-            // continuous slow floating movement
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-
-            // very gentle pull back toward base to prevent drifting too far
-            particle.x += (particle.baseX - particle.x) * 0.005;
-            particle.y += (particle.baseY - particle.y) * 0.005;
-
-            // wrap around edges
-            if (particle.x < -10) {
-                particle.x = window.innerWidth + 10;
-                particle.baseX = window.innerWidth + 10;
-            }
-            if (particle.x > window.innerWidth + 10) {
-                particle.x = -10;
-                particle.baseX = -10;
-            }
-            if (particle.y < -10) {
-                particle.y = document.documentElement.scrollHeight + 10;
-                particle.baseY = document.documentElement.scrollHeight + 10;
-            }
-            if (particle.y > document.documentElement.scrollHeight + 10) {
-                particle.y = -10;
-                particle.baseY = -10;
-            }
-
-            // draw perfect circle
-            this.ctx.fillStyle = particleColor;
-            this.ctx.beginPath();
-            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-            this.ctx.closePath();
-            this.ctx.fill();
-        });
-
-        requestAnimationFrame(() => this.animate());
-    }
-}
-
-// initialize particle system
-const particlesCanvas = document.getElementById('particles-canvas');
-if (particlesCanvas) {
-    new ParticleSystem(particlesCanvas);
 }
 
 // ==========================================

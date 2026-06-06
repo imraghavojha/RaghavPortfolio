@@ -7,8 +7,6 @@
     --card-bg: #ffffff;
     --map-overlay-bg: rgba(255, 255, 255, 0.7);
     --hover-bg: #f9fafb;
-    --particle-color: rgba(0, 0, 0, 0.15);
-
     /* github heatmap colors (light) */
     --gh-level-0: #ebedf0;
     --gh-level-1: #9be9a8;
@@ -25,8 +23,6 @@ body.dark-mode {
     --card-bg: #1d1d1d;
     --map-overlay-bg: rgba(0, 0, 0, 0.7);
     --hover-bg: #282828;
-    --particle-color: rgba(255, 255, 255, 0.2);
-
     /* github heatmap colors (dark) */
     --gh-level-0: #161b22;
     --gh-level-1: #0e4429;
@@ -48,23 +44,19 @@ body {
     overflow-x: hidden;
 }
 
-/* particle canvas */
-#particles-canvas {
+/* custom cursor — native cursor hidden, replaced by #custom-cursor div */
+* { cursor: none !important; }
+
+#custom-cursor {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
     pointer-events: none;
-}
-
-/* make sure content is above canvas */
-header,
-main,
-footer {
-    position: relative;
-    z-index: 1;
+    z-index: 999999;
+    background-repeat: no-repeat;
+    background-size: contain;
+    will-change: left, top;
+    transition: opacity 0.15s;
 }
 
 /* navbar */
@@ -101,7 +93,6 @@ footer {
 .theme-toggle {
     background: none;
     border: none;
-    cursor: pointer;
     font-size: 1.25rem;
     padding: 0.25rem;
     color: var(--text-color);
@@ -294,14 +285,10 @@ body.dark-mode .blue-location-dot {
     width: 320px;
     height: 420px;
     position: relative;
-    cursor: grab;
     user-select: none;
     z-index: 2;
 }
 
-.photo-stack:active {
-    cursor: grabbing;
-}
 
 .card {
     position: absolute;
@@ -356,7 +343,6 @@ body.dark-mode .blue-location-dot {
     /* Using variables ensures hover scales smoothly without breaking rotation */
     transform: translate(var(--tx, 0), var(--ty, 0)) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-    cursor: pointer;
     pointer-events: auto !important; /* Allows hover/click */
 }
 
