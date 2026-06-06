@@ -1,5 +1,8 @@
 /* global styles & theme */
 :root {
+    /* declare our own theming so mobile browsers don't force-dark light mode */
+    color-scheme: light;
+
     /* palette — softened off-white bg + near-black text (not pure #fff/#000) */
     --bg-color: #fcfcfc;
     --text-color: #18181b;
@@ -31,6 +34,7 @@
 }
 
 body.dark-mode {
+    color-scheme: dark;
     --bg-color: #111111;
     --text-color: #f4f4f5;
     --subtle-text: #a1a1aa;
