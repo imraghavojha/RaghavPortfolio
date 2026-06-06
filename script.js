@@ -28,7 +28,7 @@
         currentType = type;
     }
 
-    document.addEventListener('mousemove', (e) => {
+    function onMove(e) {
         el.style.left = e.clientX + 'px';
         el.style.top  = e.clientY + 'px';
 
@@ -42,7 +42,11 @@
             type = 'pointer';
         }
         if (type !== currentType) apply(type);
-    });
+    }
+
+    // pointermove catches events during pointer capture (card swipe); mousemove covers everything else
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('mousemove', onMove);
 
     document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
     document.addEventListener('mouseenter', () => { el.style.opacity = '1'; });
