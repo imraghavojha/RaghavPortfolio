@@ -1236,6 +1236,11 @@ body.dark-mode #preview-wrapper img {
     transform: scale(1.04);
 }
 
+/* keep the bottom of the photo in frame (e.g. diary logo) — crop the top */
+.photo-cell img.crop-bottom {
+    object-position: bottom;
+}
+
 .photo-wide {
     grid-column: span 2;
 }
