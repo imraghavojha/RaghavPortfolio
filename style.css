@@ -335,9 +335,10 @@ body.dark-mode .blue-location-dot {
     background: var(--hover-bg);
 }
 
-.card:nth-child(1) { z-index: 3; transform: rotate(-1deg); }
-.card:nth-child(2) { z-index: 2; transform: rotate(2.5deg) translate(10px, 9px); }
-.card:nth-child(3) { z-index: 1; transform: rotate(-2.5deg) translate(20px, 18px); }
+.card:nth-child(1) { z-index: 4; transform: rotate(-1deg); }
+.card:nth-child(2) { z-index: 3; transform: rotate(2.5deg) translate(8px, 7px); }
+.card:nth-child(3) { z-index: 2; transform: rotate(-2.5deg) translate(15px, 13px); }
+.card:nth-child(4) { z-index: 1; transform: rotate(2deg) translate(22px, 19px); }
 
 /* Floating Tech Icons */
 .floating-icon {

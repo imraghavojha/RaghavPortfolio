@@ -347,8 +347,8 @@ if (lastUpdatedElement) {
 
     const cards = [...stack.querySelectorAll('.card')];
     const n = cards.length;
-    const rotations = [-1, 2.5, -2.5];
-    const offsets   = [[0, 0], [10, 9], [20, 18]];
+    const rotations = [-1, 2.5, -2.5, 2];
+    const offsets   = [[0, 0], [8, 7], [15, 13], [22, 19]];
 
     function init() {
         // Clear inline styles so offsetWidth reads the true CSS media query value
