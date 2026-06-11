@@ -488,3 +488,112 @@ if (document.readyState === 'loading') {
     setupFloatingIcons();
     setupHoverPreviews();
 }
+
+// ==========================================
+// SCROLL PROGRESS BAR
+// ==========================================
+(function () {
+    const bar = document.createElement('div');
+    bar.className = 'scroll-progress';
+    document.body.appendChild(bar);
+
+    function update() {
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - doc.clientHeight;
+        bar.style.transform = `scaleX(${max > 0 ? doc.scrollTop / max : 0})`;
+    }
+
+    document.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+})();
+
+// ==========================================
+// GSAP SCROLL ANIMATIONS
+// ==========================================
+// all entrance states are set by gsap.from(), so if the CDN fails or the
+// user prefers reduced motion the page renders fully visible with no JS
+(function () {
+    if (!window.gsap || !window.ScrollTrigger) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // hero entrance (homepage only)
+    if (document.querySelector('.intro-left')) {
+        gsap.from('.map-container', { opacity: 0, duration: 0.9, ease: 'power2.out' });
+        gsap.from('.intro-left > *', {
+            y: 26,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.09,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity'
+        });
+        gsap.from('.photo-stack', {
+            y: 30,
+            opacity: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity'
+        });
+
+        // pop the floating icons in via their --scale variable so the
+        // CSS rotation transform stays intact during the animation
+        document.querySelectorAll('.floating-icon').forEach((icon, i) => {
+            gsap.fromTo(icon,
+                { '--scale': 0, opacity: 0 },
+                {
+                    '--scale': 1,
+                    opacity: 1,
+                    duration: 0.55,
+                    delay: 0.45 + i * 0.06,
+                    ease: 'back.out(1.8)',
+                    onComplete: () => {
+                        // inline --scale would override the :hover/.active rules
+                        icon.style.removeProperty('--scale');
+                        icon.style.removeProperty('opacity');
+                    }
+                }
+            );
+        });
+    }
+
+    // generic scroll reveals
+    gsap.utils.toArray('.reveal').forEach((el) => {
+        gsap.from(el, {
+            y: 28,
+            opacity: 0,
+            duration: 0.85,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity',
+            scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+        });
+    });
+
+    // work experience timeline cascade
+    gsap.utils.toArray('.timeline-item').forEach((item) => {
+        gsap.from(item, {
+            x: -18,
+            opacity: 0,
+            duration: 0.7,
+            ease: 'power2.out',
+            clearProps: 'transform,opacity',
+            scrollTrigger: { trigger: item, start: 'top 90%', once: true }
+        });
+    });
+
+    // hackathon wins counter
+    const winsNum = document.getElementById('wins-count-num');
+    if (winsNum) {
+        const target = parseInt(winsNum.dataset.count, 10) || 0;
+        const obj = { val: 0 };
+        gsap.to(obj, {
+            val: target,
+            duration: 1.4,
+            ease: 'power1.inOut',
+            onUpdate: () => { winsNum.textContent = Math.round(obj.val); },
+            scrollTrigger: { trigger: winsNum, start: 'top 92%', once: true }
+        });
+    }
+})();

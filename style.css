@@ -229,11 +229,14 @@ body.dark-mode .blue-location-dot {
     align-items: center;
     margin-top: 3.5rem;
     margin-bottom: 4rem;
+    position: relative;
 }
 
 .intro-left {
     flex: 1;
     min-width: 0;
+    position: relative;
+    z-index: 1;
 }
 
 .greeting {
@@ -410,6 +413,7 @@ body.dark-mode .floating-icon {
 .action-row {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.5rem;
 }
 
@@ -488,6 +492,7 @@ body.dark-mode .floating-icon {
 
 /* github heatmap */
 .heatmap-container {
+    box-sizing: border-box;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     padding: 1.5rem;
@@ -560,12 +565,48 @@ body.dark-mode .floating-icon {
     box-shadow: var(--shadow-2);
 }
 
+.project-image-wrap {
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-color);
+}
+
 .project-image {
     width: 100%;
-    height: 200px;
+    height: 180px;
     object-fit: cover;
     display: block;
-    border-bottom: 1px solid var(--border-color);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card:hover .project-image {
+    transform: scale(1.04);
+}
+
+.project-details h3 .card-arrow {
+    float: right;
+    color: var(--subtle-text);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s;
+}
+
+.project-card:hover .card-arrow {
+    transform: translateX(4px);
+    color: var(--accent);
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.85rem;
+}
+
+.card-tags span {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    background-color: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    color: var(--subtle-text);
 }
 
 .project-details {
@@ -869,6 +910,12 @@ button:focus-visible {
     }
 }
 
+@media (min-width: 880px) {
+    .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 #preview-wrapper {
     position: fixed;
     top: 0;
@@ -909,5 +956,261 @@ body.dark-mode #preview-wrapper img {
 
     .page-title {
         font-size: 3rem;
+    }
+}
+/* ===== ambient hero glow ===== */
+.glow-orb {
+    position: absolute;
+    width: min(420px, 85vw);
+    height: min(420px, 85vw);
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+    animation: orb-drift 16s ease-in-out infinite alternate;
+}
+
+.glow-orb-1 {
+    top: -120px;
+    left: -160px;
+}
+
+.glow-orb-2 {
+    bottom: -140px;
+    /* keep within the layout edge so it never extends horizontal scroll */
+    right: 0;
+    animation-delay: -8s;
+}
+
+/* drift leftward only — rightward motion would extend horizontal scroll */
+@keyframes orb-drift {
+    from { transform: translate(0, 0); }
+    to   { transform: translate(-40px, 24px); }
+}
+
+/* ===== scroll progress bar ===== */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), #a855f7);
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    z-index: 9999;
+    pointer-events: none;
+}
+
+/* ===== hackathon wins ===== */
+.wins-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.wins-count {
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, var(--accent), #a855f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.wins-blurb {
+    font-size: 1.05rem;
+    color: var(--subtle-text);
+    margin: 0;
+    max-width: 36ch;
+    line-height: 1.55;
+}
+
+.wins-marquee {
+    overflow: hidden;
+    padding: 0.5rem 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.marquee-track {
+    display: flex;
+    gap: 0.75rem;
+    width: max-content;
+    animation: marquee-scroll 30s linear infinite;
+}
+
+.wins-marquee:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+.marquee-group {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* track = group + gap + group, so shifting by 50% + half a gap loops seamlessly */
+@keyframes marquee-scroll {
+    to { transform: translateX(calc(-50% - 0.375rem)); }
+}
+
+.win-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.7rem 1.1rem;
+    box-shadow: var(--shadow-1);
+    white-space: nowrap;
+}
+
+.win-medal {
+    font-size: 1.4rem;
+}
+
+.win-pill strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.win-pill .win-place {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--subtle-text);
+}
+
+/* ===== work experience timeline ===== */
+.timeline {
+    position: relative;
+    padding-left: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background-color: var(--border-color);
+    border-radius: 1px;
+}
+
+.timeline-item {
+    position: relative;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: calc(-1.75rem + 1px);
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.timeline-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.timeline-head h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.timeline-date {
+    font-size: 0.85rem;
+    color: var(--subtle-text);
+    white-space: nowrap;
+}
+
+.timeline-org {
+    font-size: 0.9rem;
+    color: var(--subtle-text);
+    margin: 0.25rem 0 0.5rem;
+}
+
+.timeline-desc {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--subtle-text);
+    margin: 0;
+    max-width: 64ch;
+}
+
+.timeline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+}
+
+.timeline-tags .tech-tag {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.6rem;
+}
+
+/* ===== projects page: alternating two-column showcases ===== */
+@media (min-width: 820px) {
+    .project-showcase {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 2.5rem;
+        align-items: center;
+    }
+
+    .project-showcase:nth-of-type(even) .project-browser {
+        order: 2;
+    }
+}
+
+/* ===== reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+    .glow-orb {
+        animation: none;
+    }
+
+    .wins-marquee {
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+
+    .marquee-track {
+        animation: none;
+        width: auto;
+        flex-wrap: wrap;
+    }
+
+    .marquee-group {
+        flex-wrap: wrap;
+    }
+
+    .marquee-group[aria-hidden="true"] {
+        display: none;
+    }
+
+    .status-dot {
+        animation: none;
     }
 }
