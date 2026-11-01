@@ -86,3 +86,7 @@
 .mark-txst{--mark-glow:#5012145c;background:transparent}
 .mark-bobcat{--mark-glow:#8a6d3b6b;background:transparent}
 .mark-bobcat img{filter:drop-shadow(0 3px 5px #00000026) drop-shadow(0 6px 12px var(--mark-glow))}
+/* swap Codex and Copilot spots so Codex isn't next to the blue Ghostty */
+.tool-copilot{top:auto;right:auto;bottom:-10%;left:17%}
+.tool-codex{bottom:auto;left:auto;top:-7%;right:15%}
+@media (max-width:820px){.tool-copilot{bottom:-3%;left:18%}.tool-codex{top:-5%;right:9%}}

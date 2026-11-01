@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-11 -11 122 122" width="240" height="240">
+  <defs>
+    <path id="snake" d="M36,2 H64 Q73,2 73,11 V38 Q73,47 64,47 H34 Q25,47 25,56 V63 Q25,72 16,72 H11 Q2,72 2,63 V35 Q2,26 11,26 H18 Q27,26 27,17 V11 Q27,2 36,2 Z"/>
+    <g id="shades">
+      <rect x="15" y="8" width="51" height="4.5" rx="1"/>
+      <rect x="25" y="12" width="15" height="5"/>
+      <rect x="27" y="17" width="11" height="2.6"/>
+      <rect x="45" y="12" width="15" height="5"/>
+      <rect x="47" y="17" width="11" height="2.6"/>
+    </g>
+    <g id="shine" fill="#fff">
+      <rect x="28" y="12.6" width="2" height="2"/><rect x="30" y="14.6" width="2" height="2"/><rect x="32" y="12.6" width="2" height="2"/>
+      <rect x="48" y="12.6" width="2" height="2"/><rect x="50" y="14.6" width="2" height="2"/><rect x="52" y="12.6" width="2" height="2"/>
+    </g>
+  </defs>
+  <!-- white sticker border -->
+  <g fill="#fdfdfd" stroke="#fdfdfd" stroke-width="15" stroke-linejoin="round">
+    <use href="#snake"/><use href="#snake" transform="rotate(180 50 50)"/>
+    <use href="#shades"/><use href="#shades" transform="rotate(180 50 50)"/>
+  </g>
+  <!-- thick black outlines -->
+  <g fill="#141414" stroke="#141414" stroke-width="7" stroke-linejoin="round">
+    <use href="#snake" transform="rotate(180 50 50)"/><use href="#snake"/>
+  </g>
+  <!-- snake fills -->
+  <use href="#snake" transform="rotate(180 50 50)" fill="#f1c13b"/>
+  <use href="#snake" fill="#3572b4" stroke="#141414" stroke-width="0"/>
+  <!-- mouth lines -->
+  <g stroke="#141414" stroke-width="3.4" stroke-linecap="round">
+    <path d="M31,34 H60"/><path d="M31,34 H60" transform="rotate(180 50 50)"/>
+  </g>
+  <!-- pixel sunglasses -->
+  <g fill="#141414">
+    <use href="#shades"/><use href="#shades" transform="rotate(180 50 50)"/>
+  </g>
+  <use href="#shine"/><use href="#shine" transform="rotate(180 50 50)"/>
+</svg>
