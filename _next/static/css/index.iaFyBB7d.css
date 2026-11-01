@@ -67,3 +67,22 @@
 @media (min-width:821px){.experience-item{grid-template-columns:56px minmax(0,1fr)}}
 .experience-item{row-gap:0}
 .experience-dates{margin-top:12px}
+/* ---- sticker-style tool icons (no tile, just the cut-out sticker + glow) ---- */
+.tool-python,.tool-claude,.tool-copilot,.tool-docker{--pad:0;--radius:0;--surface:transparent;--edge:transparent;border:0;overflow:visible;box-shadow:none;filter:drop-shadow(0 2px 3px #141c262e) drop-shadow(0 8px 14px var(--glow));transition:transform .4s cubic-bezier(.2,.8,.2,1),filter .4s}
+.tool-python:hover,.tool-claude:hover,.tool-copilot:hover,.tool-docker:hover{box-shadow:none;filter:drop-shadow(0 3px 4px #141c2633) drop-shadow(0 12px 20px var(--glow))}
+.tool-python img,.tool-claude img,.tool-copilot img,.tool-docker img{border-radius:0}
+.tool-python{--size:clamp(68px,6vw,100px);--glow:#3d7fd28c}
+.tool-claude{--size:clamp(70px,6.2vw,104px);--glow:#d977579e}
+.tool-copilot{--size:clamp(64px,5.6vw,92px);--glow:#1b263266}
+.tool-docker{--size:clamp(72px,6.4vw,106px);--glow:#2496ed8c}
+@media (max-width:820px){.tool-python,.tool-claude,.tool-copilot,.tool-docker{--size:58px}}
+
+/* ---- work experience logos: just the shape, soft brand-colored glow (no tile) ---- */
+.company-mark{background:transparent;border:0;border-radius:0;padding:2px;box-shadow:none;transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.company-mark:hover{box-shadow:none}
+.company-mark img{filter:drop-shadow(0 3px 5px #00000026) drop-shadow(0 6px 12px var(--mark-glow));transition:filter .28s}
+.company-mark:hover img{filter:drop-shadow(0 4px 6px #0000002e) drop-shadow(0 8px 18px var(--mark-glow))}
+.mark-alive5{--mark-glow:#f05a2873;background:transparent}
+.mark-txst{--mark-glow:#5012145c;background:transparent}
+.mark-bobcat{--mark-glow:#8a6d3b6b;background:transparent}
+.mark-bobcat img{filter:drop-shadow(0 3px 5px #00000026) drop-shadow(0 6px 12px var(--mark-glow))}
